@@ -47,4 +47,29 @@ describe Recipe do
     expect(recipe1.total_calories).to eq(440)
     expect(recipe2.total_calories).to eq(675)
   end
+
+  it '#details recipe' do
+    ingredient1 = Ingredient.new({name: "Cheese", unit: "C", calories: 100})
+    ingredient2 = Ingredient.new({name: "Macaroni", unit: "oz", calories: 30})
+    recipe1 = Recipe.new("Mac and Cheese")
+    recipe1.add_ingredient(ingredient1, 2)
+    recipe1.add_ingredient(ingredient2, 8)
+
+    expect(recipe1.get_ingredient_details).to eq(
+      [{:ingredient=>"Macaroni", :amount=>"8 oz"}, 
+                                  {:ingredient=>"Cheese", :amount=>"2 C"}]
+    )
+
+    expect(recipe1.get_recipe_details).to eq(
+      {:ingredients=>[{:ingredient=>"Macaroni", :amount=>"8 oz"}, 
+                                  {:ingredient=>"Cheese", :amount=>"2 C"}], 
+                    :total_calories=>440}
+    )
+    expect(recipe1.get_recipe_summary).to eq(
+      {:name=>"Mac and Cheese", 
+        :details=>{:ingredients=>[{:ingredient=>"Macaroni", :amount=>"8 oz"}, 
+                                  {:ingredient=>"Cheese", :amount=>"2 C"}], 
+                    :total_calories=>440}}
+    )
+  end
 end
